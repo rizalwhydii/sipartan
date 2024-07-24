@@ -48,6 +48,7 @@ class Pelanggan extends CI_Controller
                 'longitude' => $pelanggan['longitude'],
                 'tglpemasan' => $pelanggan['tgl_daftar'],
                 'kecamatan' => $pelanggan['kecamatan'],
+                'telepon' => $pelanggan['telepon'],
                 'status' => 'Aktif'
             ];
             $status = ['status' => 'Selesai'];
@@ -92,14 +93,27 @@ class Pelanggan extends CI_Controller
             $nama_file = $data->file_pbb;
         } elseif ($jenis == 'rmh') {
             $nama_file = $data->foto_rumah;
+        } elseif ($jenis == 'bp') {
+            $nama_file = $this->model_pengaduan->getPengaduanByID($id)->file_bp;
         } else {
             redirect('pelanggan/list', 'refresh');
         }
-        if (file_exists(FCPATH . "assets/user_daftar/" . $nama_file) == FALSE) {
-            flashData('Data tidak ditemukan!', 'Gagal', 'error');
-            redirect('pelanggan/list', 'refresh');
+        if ($jenis == 'bp') {
+            if (file_exists(FCPATH . "assets/user_pengaduan/" . $nama_file) == FALSE) {
+                flashData('Data tidak ditemukan!', 'Gagal', 'error');
+                redirect('pengaduan/list', 'refresh');
+            }
+        } else {
+            if (file_exists(FCPATH . "assets/user_daftar/" . $nama_file) == FALSE) {
+                flashData('Data tidak ditemukan!', 'Gagal', 'error');
+                redirect('pelanggan/list', 'refresh');
+            }
         }
-        $path = file_get_contents(base_url() . "assets/user_daftar/" . $nama_file);
+        if ($jenis == 'bp') {
+            $path = file_get_contents(base_url() . "assets/user_pengaduan/" . $nama_file);
+        } else {
+            $path = file_get_contents(base_url() . "assets/user_daftar/" . $nama_file);
+        }
         force_download($nama_file, $path, FALSE);
     }
 

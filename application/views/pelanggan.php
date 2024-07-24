@@ -6,6 +6,7 @@
                 <th>Nomor SR</th>
                 <th>Nama</th>
                 <th>Alamat</th>
+                <th>Telepon</th>
                 <th>Status</th>
                 <th>Tanggal</th>
                 <th>Latitude</th>
@@ -21,6 +22,7 @@
                     <td><?= $value->nosr ?></td>
                     <td><?= $value->nama ?></td>
                     <td><?= $value->alamat_sr ?></td>
+                    <td class="text-center"><?= ($value->telepon == null) ? '-' : $value->telepon ?></td>
                     <td><?= $value->status ?></td>
                     <td><?= $value->tglpemasan ?></td>
                     <td><?= $value->latitude ?></td>

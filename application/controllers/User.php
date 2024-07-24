@@ -168,7 +168,20 @@ class User extends CI_Controller
         $this->form_validation->set_rules('isi_pengaduan', 'Isi Pengaduan', 'required', array(
             'required' => '%s Harus Diisi !!!'
         ));
+
         if ($this->form_validation->run() == TRUE) {
+            $config['upload_path'] = './assets/user_pengaduan/';
+            $config['allowed_types'] = 'jpg|jpeg';
+            $config['max_size'] = 10000;
+            $this->upload->initialize($config);
+
+            if ($this->upload->do_upload('file_bp')) {
+                $uploadData = $this->upload->data();
+            } else {
+                flashData('File yang diupload ada yang belum sesuai!', 'Gagal Upload File', 'error');
+                redirect('user/pengaduan', 'refresh');
+            }
+
             $data = array(
                 'nomor_pam' => $this->input->post('nomor_pam'),
                 'nama' => $this->input->post('nama'),
@@ -179,6 +192,7 @@ class User extends CI_Controller
                 'latitude' => $this->input->post('latitude'),
                 'kategori_pengaduan' => $this->input->post('kategori_pengaduan'),
                 'isi_pengaduan' => $this->input->post('isi_pengaduan'),
+                'file_bp' => $uploadData['file_name'],
                 'status' => 'Diproses'
             );
 

@@ -10,16 +10,11 @@
                 <li><a href="<?= base_url('frontend/struktur'); ?>">Struktur Perusahaan</a></li>
             </ul>
         </li>
-        <!-- <li class="dropdown"><a href="#"><span>Berita</span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
-                <li><a href="#">Berita</a></li>
-                <li><a href="#">Perbaikan / Gangguan</a></li>
-            </ul>
-        </li> -->
+
         <li class="dropdown"><a href="#"><span>Layanan</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
                 <li><a href="<?= base_url('user/pengaduan'); ?>">Pengaduan Pelanggan</a></li>
-                <li><a href="https://tagihan.pdamkendal.com/cek/" target="_blank">Cek Tagihan Pelanggan</a></li>
+                <li><a href="<?= base_url('frontend/tagihan'); ?>">Cek Tagihan Pelanggan</a></li>
                 <li><a href="<?= base_url('frontend/jumlah_pelanggan'); ?>">Peta Jumlah Pelanggan</a></li>
                 <li><a href="<?= base_url('user/daftar'); ?>">Sambungan Pipa Baru</a></li>
             </ul>

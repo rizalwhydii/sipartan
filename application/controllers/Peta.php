@@ -61,6 +61,10 @@ class Peta extends CI_Controller
             'kec_sukorejo' => $this->model_pelanggan->kec_sukorejo(),
             'kec_weleri' => $this->model_pelanggan->kec_weleri(),
             'kec_pegandon' => $this->model_pelanggan->kec_pegandon(),
+            'dataSD' => $this->model_peta->data_sd(),
+            'dataR' => $this->model_peta->data_reservoar(),
+            'dataG' => $this->model_peta->data_genset(),
+            'dataP' => $this->model_peta->data_pipa(),
         );
         $this->load->view('layout/viewunion', $data, FALSE); // Template Backend
     }

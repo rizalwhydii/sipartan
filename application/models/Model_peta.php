@@ -19,7 +19,10 @@ class Model_peta extends CI_Model
 
     function data_pipa()
     {
-        return $this->db->get('data_pipa')->result_array();
+        $this->db->select('data_pipa.*, panjang_pipa.panjang');
+        $this->db->from('data_pipa');
+        $this->db->join('panjang_pipa', 'data_pipa.ogr_fid = panjang_pipa.ogr_fid');
+        return $this->db->get()->result_array();
     }
 
     function data_admin()

@@ -71,6 +71,16 @@ class Frontend extends CI_Controller
         $this->load->view('layout_frontend/viewunion', $data);
     }
 
+    function Tagihan()
+    {
+        $data = [
+            'judul' => 'Cek Tagihan Pelanggan',
+            'content' => 'frontend/tagihan'
+        ];
+
+        $this->load->view('layout_frontend/viewunion', $data);
+    }
+
     function Login()
     {
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');

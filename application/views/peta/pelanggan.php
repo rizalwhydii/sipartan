@@ -1,34 +1,54 @@
 <div class="card-body">
     <div class="content">
-        <div data-aos="fade-up" id="map" style="width: 100%; height: 120vh; color:black;"></div>
+        <div data-aos="fade-up" id="map" style="width: 100%; height: 135vh; color:black;"></div>
     </div>
     <script>
-        var kec_brangsong = new L.LayerGroup();
-        var kec_cepiring = new L.LayerGroup();
-        var kec_kangkung = new L.LayerGroup();
-        var kec_kendal = new L.LayerGroup();
-        var kec_ngampel = new L.LayerGroup();
-        var kec_patebon = new L.LayerGroup();
-        var kec_pegandon = new L.LayerGroup();
-        var kec_boja = new L.LayerGroup();
-        var kec_gemuh = new L.LayerGroup();
-        var kec_kaliwungu = new L.LayerGroup();
-        var kec_kaliwungu_selatan = new L.LayerGroup();
-        var kec_limbangan = new L.LayerGroup();
-        var kec_plantungan = new L.LayerGroup();
-        var kec_pageruyung = new L.LayerGroup();
-        var kec_patean = new L.LayerGroup();
-        var kec_ringinarum = new L.LayerGroup();
-        var kec_rowosari = new L.LayerGroup();
-        var kec_singorojo = new L.LayerGroup();
-        var kec_sukorejo = new L.LayerGroup();
-        var kec_weleri = new L.LayerGroup();
+        var kec_brangsong = new L.markerClusterGroup();
+        var kec_cepiring = new L.markerClusterGroup();
+        var kec_kangkung = new L.markerClusterGroup();
+        var kec_kendal = new L.markerClusterGroup();
+        var kec_ngampel = new L.markerClusterGroup();
+        var kec_patebon = new L.markerClusterGroup();
+        var kec_pegandon = new L.markerClusterGroup();
+        var kec_boja = new L.markerClusterGroup();
+        var kec_gemuh = new L.markerClusterGroup();
+        var kec_kaliwungu = new L.markerClusterGroup();
+        var kec_kaliwungu_selatan = new L.markerClusterGroup();
+        var kec_limbangan = new L.markerClusterGroup();
+        var kec_plantungan = new L.markerClusterGroup();
+        var kec_pageruyung = new L.markerClusterGroup();
+        var kec_patean = new L.markerClusterGroup();
+        var kec_ringinarum = new L.markerClusterGroup();
+        var kec_rowosari = new L.markerClusterGroup();
+        var kec_singorojo = new L.markerClusterGroup();
+        var kec_sukorejo = new L.markerClusterGroup();
+        var kec_weleri = new L.markerClusterGroup();
+        var pipa = new L.LayerGroup();
+        var sd = new L.LayerGroup();
+        var reservoar = new L.LayerGroup();
+        var genset = new L.LayerGroup();
 
         var map = L.map('map', {
             center: [-7.0041432315589525, 110.1765823743199],
             zoom: 11,
             zoomControl: false,
             layers: []
+        });
+
+        var OpenStreetMap_Mapnik = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        });
+
+        var Stadia_StamenTerrainBackground = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain_background/{z}/{x}/{y}{r}.{ext}', {
+            minZoom: 0,
+            maxZoom: 18,
+            attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            ext: 'png'
         });
 
         var g_roadmap = new L.Google('ROADMAP');
@@ -38,7 +58,7 @@
         var GoogleSatelliteHybrid = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
             maxZoom: 22,
             attribution: 'WebGIS Trainning by Rizal Wahyudi'
-        }).addTo(map);
+        });
 
         L.control.coordinates({
             position: "topright",
@@ -49,10 +69,10 @@
         }).addTo(map);
 
         var baseLayers = {
+            'OpenStreetMap Mapnik': OpenStreetMap_Mapnik,
             'Google Satellite Hybrid': GoogleSatelliteHybrid,
-            'Google Roadmap': g_roadmap,
-            'Google Satellite': g_satellite,
-            'Google Terrain': g_terrain
+            'Esri World Imagery': Esri_WorldImagery,
+            'Stadia Terrain': Stadia_StamenTerrainBackground
 
         };
         var groupedOverlays = {
@@ -78,6 +98,13 @@
                 "Kec. Sukorejo": kec_sukorejo,
                 "Kec. Weleri": kec_weleri,
             },
+
+            "Data Eksisting": {
+                "Jaringan Pipa": pipa,
+                "Titik Sumur Dalam": sd,
+                "Titik Reservoar": reservoar,
+                "Titik Genset": genset,
+            }
         }
 
         // Map Feature
@@ -145,6 +172,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -158,6 +186,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -171,6 +200,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -184,6 +214,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -197,6 +228,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -210,6 +242,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -223,6 +256,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -236,6 +270,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -249,6 +284,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -262,6 +298,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -275,6 +312,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -288,6 +326,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -301,6 +340,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -314,6 +354,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -327,6 +368,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -340,6 +382,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -353,6 +396,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -366,6 +410,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -379,6 +424,7 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
         <?php } ?>
 
@@ -392,7 +438,78 @@
                 "<tr><th>Nama</th><td>" + "<?= $value->nama ?>" + "</td></tr>" +
                 "<tr><th>Nomor SR</th><td>" + "<?= $value->nosr ?>" + "</td></tr>" +
                 "<tr><th>Alamat</th><td>" + "<?= $value->alamat_sr ?>" + "</td></tr>" +
+                "<tr><th>Kontak</th><td>" + "<?= ($value->telepon == null) ? '-' : $value->telepon ?>" + "</td></tr>" +
                 "<table>");
+        <?php } ?>
+
+        <?php foreach ($dataSD as $key => $value) { ?>
+            var pointIcon = L.icon({
+                iconUrl: '<?= base_url() ?>assets/S_SumurDalam.png',
+                iconSize: [25, 30]
+            });
+            var dataSD = L.geoJson(<?= $value['shape']; ?>, {
+                pointToLayer: function(feature, latlng) {
+                    var marker = L.marker(latlng, {
+                        icon: pointIcon
+                    });
+                    return marker;
+                }
+            }).addTo(sd).bindPopup("<table class='table table-striped table-bordered table-condensed'>" +
+                "<tr><th>Nama</th><td>" + "<?= $value['name'] ?>" + "</td></tr>" +
+                "<tr><th>Sumber</th><td>" + "<?= $value['sumber'] ?>" + "</td></tr>" + "<table>");
+        <?php } ?>
+
+        <?php foreach ($dataR as $key => $value) { ?>
+            var pointIcon = L.icon({
+                iconUrl: '<?= base_url() ?>assets/S_Reservoir.png',
+                iconSize: [25, 30]
+            });
+            var dataR = L.geoJson(<?= $value['shape']; ?>, {
+                pointToLayer: function(feature, latlng) {
+                    var marker = L.marker(latlng, {
+                        icon: pointIcon
+                    });
+                    return marker;
+                }
+            }).addTo(reservoar).bindPopup("<table class='table table-striped table-bordered table-condensed'>" +
+                "<tr><th>Nama</th><td>" + "<?= $value['name'] ?>" + "</td></tr>" +
+                "<tr><th>Sumber</th><td>" + "<?= $value['sumber'] ?>" + "</td></tr>" + "<table>");
+        <?php } ?>
+
+        <?php foreach ($dataG as $key => $value) { ?>
+            var pointIcon = L.icon({
+                iconUrl: '<?= base_url() ?>assets/S_Genset.png',
+                iconSize: [25, 30]
+            });
+            var dataR = L.geoJson(<?= $value['shape']; ?>, {
+                pointToLayer: function(feature, latlng) {
+                    var marker = L.marker(latlng, {
+                        icon: pointIcon
+                    });
+                    return marker;
+                }
+            }).addTo(genset).bindPopup("<table class='table table-striped table-bordered table-condensed'>" +
+                "<tr><th>Nama</th><td>" + "<?= $value['name'] ?>" + "</td></tr>" +
+                "<tr><th>Sumber</th><td>" + "<?= $value['sumber'] ?>" + "</td></tr>" + "<table>");
+        <?php } ?>
+
+        <?php foreach ($dataP as $key => $value) { ?>
+            pipa = L.geoJSON(<?= $value['shape']; ?>, {
+                style: {
+                    weight: <?= weightPipa($value['diameter']); ?>,
+                    color: '#004da8',
+                    fillOpacity: 1.0,
+                },
+            }).addTo(pipa);
+            pipa.eachLayer(function(layer) {
+                layer.bindPopup("<table class='table table-striped table-bordered table-condensed'>" +
+                    "<tr><th>Jenis Pipa</th><td>" + "<?= $value['jenis_pipa'] ?>" + "</td></tr>" +
+                    "<tr><th>Diameter</th><td>" + "<?= $value['diameter'] ?>" + "</td></tr>" +
+                    "<tr><th>Panjang (m)</th><td>" + "<?= round($value['panjang'], 2) ?>" + "</td></tr>" +
+                    "<tr><th>Lokasi</th><td>" + "<?= ucwords(strtolower($value['lokasi'])) ?>" + "</td></tr>" +
+                    "<tr><th>Sumber</th><td>" + "<?= $value['sumber'] ?>" + "</td></tr>" +
+                    "<table>");
+            });
         <?php } ?>
         // End Catch Peta Dasar
     </script>

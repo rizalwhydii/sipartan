@@ -13,7 +13,7 @@
 <div class="content">
     <div class="container mt-3">
         <div class="row">
-            <form action="" method="post">
+            <form action="" method="post" enctype="multipart/form-data">
                 <div class="form-group mb-3">
                     <label for="nomor_pam">Nomor PAM <span class="text-danger">*</span></label>
                     <input name="nomor_pam" placeholder="Isikan Nomor PAM Anda" id="nomor_pam" type="text" class="form-control" value="<?php echo set_value('nomor_pam'); ?>">
@@ -75,6 +75,14 @@
                     <textarea class="form-control" placeholder="Isikan Detail Pengaduan Anda" name="isi_pengaduan" id="isi_pengaduan" rows="4"><?php echo set_value('isi_pengaduan'); ?></textarea>
                     <?php echo form_error('isi_pengaduan', '<p class="text-danger mb-0" style="font-size: small;">', '</p>'); ?>
                 </div>
+                <div class="form-group mb-3">
+                    <label for="foto_bp">Bukti Pengaduan</label>
+                    <div class="text-primary" style="font-size: small;">
+                        * Format File .jpg atau .jpeg maks 10MB
+                    </div>
+                    <input id="foto_bp" type="file" name="file_bp" class="form-control" multiple="" required>
+                    <?php echo ($this->session->flashdata('error_foto')) ? '<p class="text-danger mb-0" style="font-size: small;">File yang diupload tidak sesuai!</p>' : ''; ?>
+                </div>
                 <div>
                     <button type="submit" class="btn btn-success px-4 my-4" style="background: #D83D89;">Simpan</button>
                 </div>
@@ -128,4 +136,34 @@
         map.panTo(position);
     });
     map.addLayer(marker);
+    var locateControl = L.control.locate({
+        position: "topleft",
+        drawCircle: true,
+        follow: true,
+        setView: true,
+        keepCurrentZoomLevel: true,
+        markerStyle: {
+            weight: 1,
+            opacity: 0.8,
+            fillOpacity: 0.8
+        },
+        circleStyle: {
+            weight: 1,
+            clickable: false
+        },
+        icon: "fas fa-location-arrow",
+        metric: false,
+        strings: {
+            title: "My location",
+            popup: "You are within {distance} {unit} from this point",
+            outsideMapBoundsMsg: "You seem located outside the boundaries of the map"
+        },
+        locateOptions: {
+            maxZoom: 18,
+            watch: true,
+            enableHighAccuracy: true,
+            maximumAge: 10000,
+            timeout: 10000
+        }
+    }).addTo(map);
 </script>

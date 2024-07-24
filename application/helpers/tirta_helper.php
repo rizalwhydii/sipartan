@@ -31,6 +31,35 @@ function AdminSecure()
     }
 }
 
+function weightPipa($diameter)
+{
+    if ($diameter == 15) {
+        return '1';
+    } elseif ($diameter == 20) {
+        return '2';
+    } elseif ($diameter == 25) {
+        return '3';
+    } elseif ($diameter == 40) {
+        return '4';
+    } elseif ($diameter == 50) {
+        return '5';
+    } elseif ($diameter == 75) {
+        return '6';
+    } elseif ($diameter == 100) {
+        return '7';
+    } elseif ($diameter == 125) {
+        return '8';
+    } elseif ($diameter == 150) {
+        return '9';
+    } elseif ($diameter == 200) {
+        return '10';
+    } elseif ($diameter == 250) {
+        return '11';
+    } else {
+        return '0';
+    };
+}
+
 function report($data)
 {
     //============================================================+

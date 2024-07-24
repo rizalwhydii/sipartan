@@ -9,6 +9,8 @@
         var polygonP = new L.LayerGroup();
 
         // Data Existing
+
+        var administrasi = new L.LayerGroup();
         var pointE = new L.LayerGroup();
         var polylineE = new L.LayerGroup();
         var polygonE = new L.LayerGroup();
@@ -20,7 +22,6 @@
         var sd = new L.LayerGroup();
         var reservoar = new L.LayerGroup();
         var genset = new L.LayerGroup();
-        var administrasi = new L.LayerGroup();
 
         // Data Pelanggan
         var data_pelanggan = new L.LayerGroup();
@@ -32,6 +33,22 @@
             layers: []
         });
 
+        var OpenStreetMap_Mapnik = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        });
+
+        var Stadia_StamenTerrainBackground = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain_background/{z}/{x}/{y}{r}.{ext}', {
+            minZoom: 0,
+            maxZoom: 18,
+            attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            ext: 'png'
+        });
+
         var g_roadmap = new L.Google('ROADMAP');
         var g_satellite = new L.Google('SATELLITE');
         var g_terrain = new L.Google('TERRAIN');
@@ -39,7 +56,7 @@
         var GoogleSatelliteHybrid = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
             maxZoom: 22,
             attribution: 'WebGIS Trainning by Rizal Wahyudi'
-        }).addTo(map);
+        });
 
         L.control.coordinates({
             position: "topright",
@@ -50,12 +67,13 @@
         }).addTo(map);
 
         var baseLayers = {
+            'OpenStreetMap Mapnik': OpenStreetMap_Mapnik,
             'Google Satellite Hybrid': GoogleSatelliteHybrid,
-            'Google Roadmap': g_roadmap,
-            'Google Satellite': g_satellite,
-            'Google Terrain': g_terrain
+            'Esri World Imagery': Esri_WorldImagery,
+            'Stadia Terrain': Stadia_StamenTerrainBackground
 
         };
+
         var groupedOverlays = {
             "Peta Perencanaan": {
                 "Titik Aksesoris ": pointP,
@@ -72,8 +90,12 @@
                 "Titik Genset": genset,
                 "Batas Administrasi": administrasi
             },
-
         }
+
+        pipa.addTo(map);
+        sd.addTo(map);
+        reservoar.addTo(map);
+        genset.addTo(map);
 
         // Map Feature
         L.control.groupedLayers(baseLayers, groupedOverlays, {
@@ -135,8 +157,8 @@
 
         <?php foreach ($dataSD as $key => $value) { ?>
             var pointIcon = L.icon({
-                iconUrl: '<?= base_url() ?>assets/iconSD.png',
-                iconSize: [20, 25]
+                iconUrl: '<?= base_url() ?>assets/S_SumurDalam.png',
+                iconSize: [25, 30]
             });
             var dataSD = L.geoJson(<?= $value['shape']; ?>, {
                 pointToLayer: function(feature, latlng) {
@@ -146,13 +168,14 @@
                     return marker;
                 }
             }).addTo(sd).bindPopup("<table class='table table-striped table-bordered table-condensed'>" +
-                "<tr><th>Nama</th><td>" + "<?= $value['name'] ?>" + "</td></tr>" + "<table>");
+                "<tr><th>Nama</th><td>" + "<?= $value['name'] ?>" + "</td></tr>" +
+                "<tr><th>Sumber</th><td>" + "<?= $value['sumber'] ?>" + "</td></tr>" + "<table>");
         <?php } ?>
 
         <?php foreach ($dataR as $key => $value) { ?>
             var pointIcon = L.icon({
-                iconUrl: '<?= base_url() ?>assets/iconR.png',
-                iconSize: [20, 25]
+                iconUrl: '<?= base_url() ?>assets/S_Reservoir.png',
+                iconSize: [25, 30]
             });
             var dataR = L.geoJson(<?= $value['shape']; ?>, {
                 pointToLayer: function(feature, latlng) {
@@ -162,13 +185,14 @@
                     return marker;
                 }
             }).addTo(reservoar).bindPopup("<table class='table table-striped table-bordered table-condensed'>" +
-                "<tr><th>Nama</th><td>" + "<?= $value['name'] ?>" + "</td></tr>" + "<table>");
+                "<tr><th>Nama</th><td>" + "<?= $value['name'] ?>" + "</td></tr>" +
+                "<tr><th>Sumber</th><td>" + "<?= $value['sumber'] ?>" + "</td></tr>" + "<table>");
         <?php } ?>
 
         <?php foreach ($dataG as $key => $value) { ?>
             var pointIcon = L.icon({
-                iconUrl: '<?= base_url() ?>assets/iconG.png',
-                iconSize: [20, 25]
+                iconUrl: '<?= base_url() ?>assets/S_Genset.png',
+                iconSize: [25, 30]
             });
             var dataR = L.geoJson(<?= $value['shape']; ?>, {
                 pointToLayer: function(feature, latlng) {
@@ -178,14 +202,15 @@
                     return marker;
                 }
             }).addTo(genset).bindPopup("<table class='table table-striped table-bordered table-condensed'>" +
-                "<tr><th>Nama</th><td>" + "<?= $value['name'] ?>" + "</td></tr>" + "<table>");
+                "<tr><th>Nama</th><td>" + "<?= $value['name'] ?>" + "</td></tr>" +
+                "<tr><th>Sumber</th><td>" + "<?= $value['sumber'] ?>" + "</td></tr>" + "<table>");
         <?php } ?>
 
         <?php foreach ($dataP as $key => $value) { ?>
             pipa = L.geoJSON(<?= $value['shape']; ?>, {
                 style: {
-                    weight: 2,
-                    color: '<?= $value['color'] ?>',
+                    weight: <?= weightPipa($value['diameter']); ?>,
+                    color: '#004da8',
                     fillOpacity: 1.0,
                 },
             }).addTo(pipa);
@@ -193,7 +218,9 @@
                 layer.bindPopup("<table class='table table-striped table-bordered table-condensed'>" +
                     "<tr><th>Jenis Pipa</th><td>" + "<?= $value['jenis_pipa'] ?>" + "</td></tr>" +
                     "<tr><th>Diameter</th><td>" + "<?= $value['diameter'] ?>" + "</td></tr>" +
-                    "<tr><th>Lokasi</th><td>" + "<?= $value['lokasi'] ?>" + "</td></tr>" + "</td></tr>" +
+                    "<tr><th>Panjang (m)</th><td>" + "<?= round($value['panjang'], 2) ?>" + "</td></tr>" +
+                    "<tr><th>Lokasi</th><td>" + "<?= ucwords(strtolower($value['lokasi'])) ?>" + "</td></tr>" +
+                    "<tr><th>Sumber</th><td>" + "<?= $value['sumber'] ?>" + "</td></tr>" +
                     "<table>");
             });
         <?php } ?>
@@ -212,48 +239,13 @@
                     "<table>");
             });
         <?php } ?>
-
-        <?php foreach ($titikKec as $key => $value) : ?>
-            var kecamatan = L.geoJson(<?= $value['shape']; ?>, {
-                pointToLayer: function(feature, latlng) {
-                    return L.marker(latlng, {
-                        icon: L.divIcon({
-                            className: 'leaflet-mouse-marker',
-                        }),
-                        interactive: false
-                    })
-                }
-            }).addTo(administrasi).bindTooltip('<?= $value['wadmkc']; ?>', {
-                direction: "center",
-                permanent: true,
-                className: 'styleLabelKecamatan'
-            });
-
-            resetLabels([kecamatan]);
-            map.on("zoomend", function() {
-                if (map.getZoom() <= 12) {
-                    resetLabels([kecamatan]);
-                } else if (map.getZoom() > 12) {
-                    resetLabels([kecamatan]);
-                }
-            });
-            map.on("move", function() {
-                resetLabels([kecamatan]);
-            });
-            map.on("layeradd", function() {
-                resetLabels([kecamatan]);
-            });
-            map.on("layerremove", function() {
-                resetLabels([kecamatan]);
-            });
-        <?php endforeach; ?>
         // End Catch Peta Dasar
 
         // Catch Data Perencanaan
         <?php foreach ($pointP as $key => $value) { ?>
             L.marker([<?= $value->latitude ?>, <?= $value->longitude ?>], {
                 icon: L.icon({
-                    iconUrl: '<?= base_url('assets/marker/' . $value->marker) ?>',
+                    iconUrl: '<?= base_url('assets/' . $value->marker) ?>',
                     iconSize: [30, 36], // size of the icon 
                 })
             }).addTo(pointP).bindPopup("<table class='table table-striped table-bordered table-condensed'>" +
@@ -301,7 +293,7 @@
         <?php foreach ($pointE as $key => $value) { ?>
             L.marker([<?= $value->latitude ?>, <?= $value->longitude ?>], {
                 icon: L.icon({
-                    iconUrl: '<?= base_url('assets/marker/' . $value->marker) ?>',
+                    iconUrl: '<?= base_url('assets/E_' . $value->marker) ?>',
                     iconSize: [30, 36], // size of the icon 
                 })
             }).addTo(pointE).bindPopup("<table class='table table-striped table-bordered table-condensed'>" +
@@ -343,6 +335,42 @@
                     "<table>");
             });
         <?php } ?>
+
+        <?php foreach ($titikKec as $key => $value) : ?>
+            var kecamatan = L.geoJson(<?= $value['shape']; ?>, {
+                pointToLayer: function(feature, latlng) {
+                    return L.marker(latlng, {
+                        icon: L.divIcon({
+                            className: 'leaflet-mouse-marker',
+                        }),
+                        interactive: false
+                    })
+                }
+            }).addTo(administrasi).bindTooltip('<?= $value['wadmkc']; ?>', {
+                direction: "center",
+                permanent: true,
+                className: 'styleLabelKecamatan'
+            });
+
+            resetLabels([kecamatan]);
+            map.on("zoomend", function() {
+                if (map.getZoom() <= 12) {
+                    resetLabels([kecamatan]);
+                } else if (map.getZoom() > 12) {
+                    resetLabels([kecamatan]);
+                }
+            });
+            map.on("move", function() {
+                resetLabels([kecamatan]);
+            });
+            map.on("layeradd", function() {
+                resetLabels([kecamatan]);
+            });
+            map.on("layerremove", function() {
+                resetLabels([kecamatan]);
+            });
+        <?php endforeach; ?>
+
         // End Catch Data Digitasi
     </script>
 </div>

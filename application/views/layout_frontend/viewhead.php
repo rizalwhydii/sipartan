@@ -64,6 +64,7 @@
   <link rel="stylesheet" href="<?= base_url() ?>assets/plugin/MarkerCluster.Default.css" />
   <script src="<?= base_url() ?>assets/plugin/leaflet.markercluster-src.js"></script>
   <script src="https://raruto.github.io/cdn/leaflet-google/0.0.3/leaflet-google.js"></script>
+  <script src="https://github.com/leaflet-extras/leaflet-providers"></script>
   <!-- Labeling -->
   <script src="https://unpkg.com/rbush@2.0.2/rbush.min.js"></script>
   <script src="https://unpkg.com/labelgun@6.1.0/lib/labelgun.min.js"></script>

@@ -13,6 +13,7 @@
                       <div class="social-links">
                           <a href="https://www.facebook.com/pdamkabkendal/" class="facebok"><i class="bi bi-facebook"></i></a>
                           <a href="https://www.youtube.com/@PdamKendal/" class="youtube"><i class="bi bi-youtube"></i></a>
+                          <a href="https://wa.me/08122578484" target="_blank" class="whatsapp"><i class="bi bi-whatsapp"></i></a>
                       </div>
                   </div>
                   <div class="col-lg-3 col-md-6 footer-links">
@@ -27,9 +28,9 @@
                           <li> <i class="bi bi-chevron-right"> </i> <a href="<?= base_url('frontend#facts') ?>">Fakta</a></li>
                       </ul>
                   </div>
-                  <div class="col-lg-6 col-md-6 footer-newsletter">
+                  <div class="col-lg-6 col-md-12 footer-newsletter">
                       <h4>Hubungi Kami</h4>
-                      <div class="google-map"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.726379394778!2d110.19769541015134!3d-6.9232762677345425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e705c680eb1a003%3A0xa5414caf937466a3!2sPDAM%20Kabupaten%20Kendal!5e0!3m2!1sen!2sid!4v1714804395706!5m2!1sen!2sid" width="635" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      <div class="google-map w-full"><iframe class="w-full" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.726379394778!2d110.19769541015134!3d-6.9232762677345425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e705c680eb1a003%3A0xa5414caf937466a3!2sPDAM%20Kabupaten%20Kendal!5e0!3m2!1sen!2sid!4v1714804395706!5m2!1sen!2sid" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                       </div>
                   </div>
               </div>

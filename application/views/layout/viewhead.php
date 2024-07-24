@@ -59,6 +59,7 @@
     <link rel="stylesheet" href="<?= base_url() ?>assets/plugin/MarkerCluster.css" />
     <link rel="stylesheet" href="<?= base_url() ?>assets/plugin/MarkerCluster.Default.css" />
     <script src="<?= base_url() ?>assets/plugin/leaflet.markercluster-src.js"></script>
+    <script src="https://github.com/leaflet-extras/leaflet-providers"></script>
     <!-- Leaflet Draw -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>

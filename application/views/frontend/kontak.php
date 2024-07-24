@@ -24,7 +24,9 @@
 
             <div class="col-md-4">
                 <div class="contact-address">
-                    <i class="bi bi-geo-alt"></i>
+                    <a href="https://maps.app.goo.gl/svSy2xCNcVpvwRfCA" target="_blank">
+                        <i class="bi bi-geo-alt link"></i>
+                    </a>
                     <h3>Alamat</h3>
                     <address>Jl. Pemuda No.62, Kebondalem, Langenharjo, Kec. Kendal, Kabupaten Kendal, Jawa Tengah 51314</address>
                 </div>
@@ -32,17 +34,21 @@
 
             <div class="col-md-4">
                 <div class="contact-phone">
-                    <i class="bi bi-phone"></i>
-                    <h3>Telepon</h3>
-                    <p>(0294)-381165</p>
+                    <a href="https://wa.me/08122578484" target="_blank">
+                        <i class="bi bi-whatsapp link"></i>
+                    </a>
+                    <h3>Whatsapp</h3>
+                    <p>+628122578484</p>
                 </div>
             </div>
 
             <div class="col-md-4">
                 <div class="contact-email">
-                    <i class="bi bi-envelope"></i>
+                    <a href="https://mail.google.com/" target="_blank">
+                        <i class="bi bi-envelope link"></i>
+                    </a>
                     <h3>Email</h3>
-                    <p><a href="https://mail.google.com/" target="_blank">pdam@pdamkendal.com</a></p>
+                    <p>pdam@pdamkendal.com</p>
                 </div>
             </div>
 

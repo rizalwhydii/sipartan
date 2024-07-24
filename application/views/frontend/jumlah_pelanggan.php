@@ -25,14 +25,27 @@
             layers: []
         });
 
-        var g_roadmap = new L.Google('ROADMAP');
+        var OpenStreetMap_Mapnik = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        });
+
+        var Esri_WorldTopoMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
+        });
+
         var g_satellite = new L.Google('SATELLITE');
+        var g_roadmap = new L.Google('ROADMAP');
         var g_terrain = new L.Google('TERRAIN');
 
         var GoogleSatelliteHybrid = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
             maxZoom: 22,
             attribution: 'WebGIS Trainning by Rizal Wahyudi'
-        }).addTo(map);
+        });
 
         L.control.coordinates({
             position: "topright",
@@ -43,17 +56,19 @@
         }).addTo(map);
 
         var baseLayers = {
+            'OpenStreetMap Mapnik': OpenStreetMap_Mapnik,
             'Google Satellite Hybrid': GoogleSatelliteHybrid,
-            'Google Roadmap': g_roadmap,
-            'Google Satellite': g_satellite,
-            'Google Terrain': g_terrain
+            'Esri World Imagery': Esri_WorldImagery,
+            'Esri Topomap': Esri_WorldTopoMap
 
         };
+
         var groupedOverlays = {
             "Data": {
-                "Batas Admin": admin
+                "Jumlah Pelanggan": admin
             },
         }
+
 
         labelEngine = new labelgun.default(hideLabel, showLabel);
 
@@ -73,6 +88,7 @@
         }
 
         // Map Feature
+        admin.addTo(map);
         L.control.groupedLayers(baseLayers, groupedOverlays, {
             collapsed: false
         }).addTo(map);
@@ -87,6 +103,18 @@
         }).addTo(map);
 
         L.control.scale().addTo(map);
+        // Legenda
+        var legenda = L.control({
+            position: "bottomleft"
+        });
+        legenda.onAdd = function(map) {
+            var div = L.DomUtil.create("div", "info legend");
+            div.innerHTML = '<img width="135" src="<?= base_url('assets/img/legenda.png') ?>
+            ">';
+            return div;
+        }
+        legenda.addTo(map);
+        // End Legenda
 
         var measureControl = new L.Control.Measure({
             position: 'topleft',
@@ -135,7 +163,7 @@
                 style: {
                     weight: 2,
                     fillColor: '<?= $value['color'] ?>',
-                    fillOpacity: 0.5,
+                    fillOpacity: 0.75,
                 },
             }).addTo(admin);
             admin.eachLayer(function(layer) {
@@ -159,6 +187,42 @@
                 }
             }).addTo(admin).bindTooltip('<?= $value['wadmkc']; ?>', {
                 direction: "center",
+                permanent: true,
+                className: 'styleLabelKecamatan'
+            });
+
+            resetLabels([kecamatan]);
+            map.on("zoomend", function() {
+                if (map.getZoom() <= 12) {
+                    resetLabels([kecamatan]);
+                } else if (map.getZoom() > 12) {
+                    resetLabels([kecamatan]);
+                }
+            });
+            map.on("move", function() {
+                resetLabels([kecamatan]);
+            });
+            map.on("layeradd", function() {
+                resetLabels([kecamatan]);
+            });
+            map.on("layerremove", function() {
+                resetLabels([kecamatan]);
+            });
+        <?php endforeach; ?>
+
+        <?php foreach ($titikKec as $key => $value) : ?>
+            var kecamatan = L.geoJson(<?= $value['shape']; ?>, {
+                pointToLayer: function(feature, latlng) {
+                    return L.marker(latlng, {
+                        icon: L.divIcon({
+                            className: 'leaflet-mouse-marker',
+                        }),
+                        interactive: false
+                    })
+                }
+            }).addTo(admin).bindTooltip('<?= $value['jml_plgn']; ?>', {
+                direction: "center",
+                offset: L.point(0, 20),
                 permanent: true,
                 className: 'styleLabelKecamatan'
             });

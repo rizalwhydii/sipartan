@@ -10,7 +10,7 @@
                               <h2 class="animate__animated animate__fadeInDown">SIPARTAN</h2>
                               <h3 class="animate_animated animate_fadeInUp" style="color:white"> Sistem Informasi Perumda Air Minum Tirto Panguripan</h3>
                               <p class="animate__animated animate__fadeInUp"> Sistem informasi berbasis GIS untuk mengoptimalkan layanan Perumda Air Minum Tirto Panguripan Kabupaten Kendal </p>
-                              <a href="<?= base_url('frontend/kontak') ?>" class="btn-get-started scrollto animate__animated animate__fadeInUp" style="background: #D83D89;">Hubungi Kami</a>
+                              <a href="#featured-services" class="btn-get-started scrollto animate_animated animate_fadeInUp" style="background: #D83D89;">Layanan Kami</a>
                           </div>
                       </div>
                   </div>
@@ -18,6 +18,35 @@
           </div>
       </div>
   </section><!-- End Hero Section -->
+
+  <!-- ======= Featured Services Section Section ======= -->
+  <section id="featured-services" style="background-color: #49548E;">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-3 col-6 box" style="background-color: #D83D89; border-left: 2px white solid; border-right: 2px white solid;">
+                  <h4 class="title" style="font-weight: bold;"><a href="<?= base_url('user/pengaduan'); ?>" class="feat1">Pengaduan Pelanggan</a></h4>
+                  <p class="description">Layanan cepat tanggap untuk melaporkan masalah air, memudahkan pelanggan menyampaikan keluhan, dan memastikan penanganan efisien oleh petugas Perumda Air Minum Tirto Panguripan.</p>
+              </div>
+
+              <div class="col-lg-3 col-6 box" style="border-left: 2px white solid; border-right: 2px white solid;">
+                  <h4 class="title" style="font-weight: bold;"><a href="<?= base_url('frontend/tagihan'); ?>" class="feat2">Cek Tagihan Pelanggan</a></h4>
+                  <p class="description">Layanan yang memudahkan pelanggan untuk mengecek tagihan pelanggan seperti mengetahui rincian penggunaan air dan mengetahui informasi jumlah pembayaran air di setiap bulan.</p>
+              </div>
+
+              <div class="col-lg-3 col-6 box" style="background-color: #D83D89; border-left: 2px white solid; border-right: 2px white solid;">
+                  <h4 class="title" style="font-weight: bold;"><a href="<?= base_url('frontend/jumlah_pelanggan'); ?>" class="feat1">Peta Jumlah Pelanggan</a></h4>
+                  <p class="description">Layanan visualisasi peta interaktif distribusi pelanggan di setiap kecamatan untuk menampilkan data spasial jumlah pengguna layanan air di Perumda Air Minum Tirto Panguripan Kabupaten Kendal.</p>
+              </div>
+
+              <div class="col-lg-3 col-6 box" style="border-left: 2px white solid; border-right: 2px white solid;">
+                  <h4 class="title" style="font-weight: bold;"><a href="<?= base_url('user/daftar'); ?>" class="feat2">Sambungan Pipa Baru</a></h4>
+                  <p class="description">Layanan online pendaftaran sambungan pipa baru, memudahkan calon pelanggan mengajukan pemasangan sambungan pipa baru dan melengkapi persyaratan tanpa perlu mengunjungi kantor Perumda Air Minum Tirto Panguripan Kabupaten Kendal.</p>
+              </div>
+
+          </div>
+      </div>
+  </section>
+  <!-- End Featured Services Section -->
 
   <!-- ======= About Us Section ======= -->
   <section id="about">
@@ -116,8 +145,8 @@
 
                   <div class="swiper-slide">
                       <div class="testimonial-item">
-                          <img src="<?= base_url() ?>assets/frontend/assets/img/pimpinan.jpg" class="testimonial-img" alt="">
-                          <h3>Sunanto</h3>
+                          <img src="<?= base_url() ?>assets/frontend/assets/img/foto_pimpinan.jpeg" class="testimonial-img" alt="">
+                          <h3>Didik Yudya Pratidina, S.E., M.M.</h3>
                           <h4>Direktur Utama Perumda Air Minum Tirto Panguripan </h4>
                           <p>
                               <img src="<?= base_url() ?>assets/frontend/assets/img/quote-sign-left.png" class="quote-sign-left" alt="">
@@ -147,7 +176,7 @@
 
               <div class="col-lg-3 col-6 text-center">
                   <span data-purecounter-start="0" data-purecounter-end="95879" data-purecounter-duration="1" class="purecounter" style="color:#D83D89"></span>
-                  <p>Jumlah SR</p>
+                  <p>Jumlah Sambungan Rumah</p>
               </div>
 
               <div class="col-lg-3 col-6 text-center">

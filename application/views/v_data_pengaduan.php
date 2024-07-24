@@ -9,6 +9,7 @@
                 <th>Email</th>
                 <th>Kategori</th>
                 <th>Tanggal</th>
+                <th>Bukti Pengaduan</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
@@ -24,6 +25,9 @@
                     <td><?= $value->email ?></td>
                     <td class="text-center"><?= $value->kategori_pengaduan ?></td>
                     <td class="text-center"><?= date('d-m-Y H:i:s', strtotime($value->tgl_pengaduan)) ?></td>
+                    <td class="text-center">
+                        <a href="<?= base_url('pelanggan/download/') . $value->id_pengaduan ?>?jns=bp" class="btn btn-sm btn-primary"><i class="fas fa-download"></i></a>
+                    </td>
                     <td class="text-center mx-auto">
                         <?php if ($value->status == 'Diproses') : ?>
                             <span class="badge badge-warning py-2 px-3 text-dark"><?= $value->status ?></span>
